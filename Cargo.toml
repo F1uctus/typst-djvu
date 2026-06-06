@@ -1,0 +1,16 @@
+[package]
+name = "djvu"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+description = "Typst WASM plugin: extract DjVu OCR text layer per page"
+repository = "https://github.com/F1uctus/typst-djvu"
+authors = ["Ilya I. Nikitin <ilya.i.nikitin@proton.me>"]
+
+[lib]
+name = "djvu"
+crate-type = ["cdylib"]
+
+[dependencies]
+djvu = "0.1"
+wasm-minimal-protocol = "0.2"

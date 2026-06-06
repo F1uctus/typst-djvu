@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --target wasm32-unknown-unknown --release
+      - run: cp target/wasm32-unknown-unknown/release/djvu.wasm .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: djvu-wasm
+          path: djvu.wasm
+
+  release-wasm:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: wasm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: djvu-wasm
+      - name: Publish djvu.wasm to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="wasm-v0.1.0"
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" --title "WASM v0.1.0" \
+              --notes "Auto-built \`djvu.wasm\` from main."
+          fi
+          gh release upload "$tag" djvu.wasm --clobber

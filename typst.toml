@@ -1,0 +1,9 @@
+[package]
+name = "djvu"
+version = "0.1.0"
+entrypoint = "lib.typ"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/F1uctus/typst-djvu"
+authors = ["Ilya I. Nikitin <ilya.i.nikitin@proton.me>"]
+description = "Extract DjVu OCR text per page and find anchors (WASM via pure-Rust djvu crate)"
+keywords = ["typst", "djvu", "ocr", "text", "plugin", "wasm"]
