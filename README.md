@@ -17,24 +17,27 @@ Typst package to extract the DjVu OCR/text layer page-by-page and locate anchors
 - `djvu-pages(data)` — `data` is raw `.djvu` bytes; returns `array(str)` (one entry per page).
 - `djvu-find(pages, ..needles)` — first 1-based page where all substrings appear **in order**; pure Typst.
 
-## Build WASM
+## Local package install
+
+Per [Typst Local Packages](https://github.com/typst/packages/blob/main/README.md#local-packages), store this repo at `{data-dir}/typst/packages/local/djvu/0.1.0` or pass `--package-path` to a parent of `local/djvu/0.1.0`.
+
+Clone a tagged release (includes `lib.typ`, `typst.toml`, and `djvu.wasm`):
 
 ```bash
-cargo build --target wasm32-unknown-unknown --release
-cp target/wasm32-unknown-unknown/release/djvu.wasm .
+mkdir -p paper/packages/local/djvu
+rm -rf paper/packages/local/djvu/0.1.0
+git clone --depth 1 --branch v0.1.0 \
+  https://github.com/F1uctus/typst-djvu \
+  paper/packages/local/djvu/0.1.0
 ```
 
-Place `djvu.wasm` next to `lib.typ` in this directory before compiling documents that import the package.
+Or symlink a checkout:
 
-## Use in kalman.v
-
-The thesis wires this repo in as a local Typst package:
-
-```text
-paper/packages/local/djvu/0.1.0 -> ../../../../tools/typst-djvu
+```bash
+ln -sf "$(pwd)/tools/typst-djvu" paper/packages/local/djvu/0.1.0
 ```
 
-Compile with the package search path pointing at `paper/packages`:
+Compile with the package search path:
 
 ```bash
 typst compile paper/thesis.typ paper/thesis.pdf \
@@ -42,15 +45,16 @@ typst compile paper/thesis.typ paper/thesis.pdf \
   --package-path paper/packages
 ```
 
-Fetch a prebuilt `djvu.wasm` from CI:
+## Build WASM
+
+When Rust sources change, rebuild and commit `djvu.wasm` beside `lib.typ`:
 
 ```bash
-bash tools/fetch-djvu-wasm.sh
+cargo build --target wasm32-unknown-unknown --release
+cp target/wasm32-unknown-unknown/release/djvu.wasm .
 ```
 
-## Distribution
-
-Main-branch CI uploads `djvu.wasm` to GitHub Release **`wasm-v0.1.0`**.
+CI verifies the committed binary matches a fresh build.
 
 ## Benchmark
 

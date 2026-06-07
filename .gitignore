@@ -1,9 +1,6 @@
 # Rust / Cargo
 /target/
 
-# WASM artifact copied next to lib.typ for local Typst runs (CI uploads it separately)
-/djvu.wasm
-
 # Editor / OS
 .vscode/
 .idea/
