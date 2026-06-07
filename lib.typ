@@ -28,18 +28,3 @@
   }
   none
 }
-
-#let _needle-sep = "\u{001e}"
-
-/// Same as `djvu-find`, but searches a `.djvu` byte string via the Rust plugin.
-/// `skip` drops leading pages before search (front matter). Returns 1-based index
-/// within the skipped suffix, or `none`.
-#let djvu-find-bytes(data, skip: 0, ..needles) = {
-  let packed = needles.pos().map(str).join(_needle-sep)
-  let hit = bytes(_p.find(data, str(skip), packed))
-  if hit.len() == 0 {
-    none
-  } else {
-    int(str(hit))
-  }
-}
