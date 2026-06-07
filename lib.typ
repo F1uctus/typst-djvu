@@ -1,4 +1,4 @@
-#let _p = plugin("djvu.wasm")
+#let _p = plugin("/djvu.wasm")
 
 /// Bytes of a `.djvu` file (`read(..., encoding: none)`). One string per page (form-feed separated in WASM).
 #let djvu-pages(data) = str(_p.extract(data)).split("\u{0C}")
