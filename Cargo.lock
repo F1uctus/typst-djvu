@@ -5,14 +5,6 @@ version = 4
 [[package]]
 name = "djvu"
 version = "0.1.0"
-dependencies = [
- "djvu 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "wasm-minimal-protocol",
-]
-
-[[package]]
-name = "djvu"
-version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4b61586a33f85858095c659ce3a5c810adca1f14f023939df847a765b4d07bc8"
 dependencies = [
@@ -42,6 +34,14 @@ name = "self_cell"
 version = "1.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b12e76d157a900eb52e81bc6e9f3069344290341720e9178cde2407113ac8d89"
+
+[[package]]
+name = "typst-djvu"
+version = "0.1.0"
+dependencies = [
+ "djvu",
+ "wasm-minimal-protocol",
+]
 
 [[package]]
 name = "unicode-ident"

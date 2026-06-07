@@ -1,5 +1,5 @@
 [package]
-name = "djvu"
+name = "typst-djvu"
 version = "0.1.0"
 edition = "2021"
 license = "GPL-3.0-or-later"
@@ -9,8 +9,12 @@ authors = ["Ilya I. Nikitin <ilya.i.nikitin@proton.me>"]
 
 [lib]
 name = "djvu"
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "djvu-bench"
+path = "src/bin/bench.rs"
 
 [dependencies]
-djvu = "0.1"
+djvu-parser = { package = "djvu", version = "0.1" }
 wasm-minimal-protocol = "0.2"
